@@ -1,19 +1,26 @@
-/* src/index.css (Revised for a light, clean theme inspired by Plasma.to's light sections) */
+/* src/index.css (Updated for green background and appropriate text colors) */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
   /* Define a new light color palette */
-  --color-background-light: #f5f5f5; /* Very light gray */
-  --color-background-card: #ffffff; /* White for cards */
+  --color-background-light: #f5f5f5; /* Very light gray - still available if needed */
+  --color-background-green: #173634; /* A dark, deep green, similar to Plasma.to's sections */
+  --color-background-card: #ffffff; /* White for cards (will be used in App.css) */
+
+  /* Text colors for content *on* the cards (will be used in App.css) */
   --color-text-dark: #333333; /* Dark gray for general text */
   --color-text-medium: #555555; /* Medium gray for secondary text */
+
+  /* Text colors for elements *on* the dark green background */
+  --color-heading-on-dark: #ffffff; /* White for main headings on dark background */
+  --color-text-on-dark: #e0e0e0; /* Light gray for general text on dark background */
+
   --color-accent-blue: #007bff; /* A clean blue for highlights */
   --color-accent-green: #28a745; /* A subtle green */
   --color-border-light: #eeeeee; /* Very light border */
   --color-shadow-light: rgba(0, 0, 0, 0.08); /* Lighter shadow */
   --color-shadow-hover: rgba(0, 0, 0, 0.15); /* Slightly darker shadow on hover */
-  --color-heading: #222222; /* Darker heading text */
 }
 
 body {
@@ -21,8 +28,8 @@ body {
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--color-background-light); /* Apply light background */
-  color: var(--color-text-dark); /* Set default text color */
+  background-color: var(--color-background-green); /* Apply the dark green background */
+  color: var(--color-text-on-dark); /* Set default text color for body to light gray */
   line-height: 1.6;
   display: flex;
   justify-content: center;
@@ -38,7 +45,7 @@ body {
 }
 
 h1, h2 {
-  color: var(--color-heading); /* Darker heading text */
+  color: var(--color-heading-on-dark); /* White for headings on dark background */
   font-weight: 600;
   letter-spacing: -0.02em;
   margin-bottom: 20px;
@@ -47,7 +54,7 @@ h1, h2 {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-  /* Removed the glowing green, now just a clean dark heading */
+  /* No glowing green, just clean white text on the dark background */
 }
 
 h2 {
@@ -57,7 +64,7 @@ h2 {
 
 a {
   font-weight: 500;
-  color: var(--color-accent-blue);
+  color: var(--color-accent-blue); /* You can change this to a lighter color if it's on the dark green */
   text-decoration: none;
 }
 a:hover {

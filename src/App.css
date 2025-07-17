@@ -1,47 +1,90 @@
-/* src/App.css (Revised for distinct "Block" Cards) */
+/* src/App.css (UPDATED for Continuous Scroll) */
+
+/* Container to hide overflow and define visible scroll area */
+.scroll-container {
+  height: 700px; /* Adjust this height to control how many rows are visible at once. */
+                    /* If you have 11 entries, you might want this to show 2-3 rows */
+  overflow: hidden; /* Hide the parts of the list that are outside this container */
+  position: relative; /* Needed for positioning context if you were to use absolute positioning */
+  margin-top: 40px;
+  /* Optional: Add padding inside if you want space between edge and cards */
+  /* padding: 20px; */
+}
+
+/* Animation for continuous downward scroll */
+/* Note: We animate to -50% because the content is duplicated. When it hits -50%,
+   the second copy of the list is exactly where the first copy started,
+   allowing a seamless jump back to 0% as the animation repeats. */
+@keyframes scrollDown {
+  0% {
+    transform: translateY(0); /* Start at the top */
+  }
+  100% {
+    transform: translateY(-50%); /* Scroll up by exactly half the height of the duplicated list */
+  }
+}
 
 .feedback-entries-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Slightly wider cards */
-  gap: 30px; /* More space between blocks */
-  margin-top: 40px;
-  padding: 0; /* No padding here, cards handle their own */
-  /* background-color: transparent; Remove any background from container */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+  padding: 0;
   align-items: start;
+  list-style: none; /* Remove bullet points */
+  margin: 0; /* Remove default ul margin */
+
+  /* Apply continuous scroll animation */
+  animation: scrollDown 60s linear infinite; /* Adjust time (e.g., 60s, 90s, 120s) for speed, linear for constant speed, infinite to loop */
+  animation-play-state: running; /* Ensure it's running */
+
+  /* These properties are crucial for the grid to behave correctly with the scroll animation */
+  /* If you want items to stack vertically for a true "waterfall" within the scrolling container,
+     you might consider changing grid-template-columns to '1fr' to force a single column.
+     However, if you want multiple columns scrolling, this current grid setup is okay,
+     but the `translateY(-50%)` logic assumes the UL has a consistent measured height. */
+  grid-auto-rows: auto; /* Allow rows to size based on content */
+  width: 100%; /* Ensure it takes full width of container */
+}
+
+/* Pause animation on hover if you want the user to be able to read */
+.feedback-entries-container:hover {
+  animation-play-state: paused;
 }
 
 .feedback-entry-card {
-  background-color: var(--color-background-card); /* White card background */
-  border: 1px solid var(--color-border-light); /* Very subtle light border */
-  border-radius: 12px; /* Consistent rounded corners */
-  padding: 30px; /* More padding inside cards for spacious feel */
+  background-color: var(--color-background-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: 12px;
+  padding: 30px;
   text-align: left;
-  box-shadow: 0 5px 15px var(--color-shadow-light); /* Subtle shadow for depth */
+  box-shadow: 0 5px 15px var(--color-shadow-light);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
   height: auto; /* Allow height to adjust to content */
+
+  /* REMOVED: No more slideInFromTop animation here, as it conflicts with continuous scroll */
 }
 
 .feedback-entry-card:hover {
-  transform: translateY(-8px); /* Lift on hover */
-  box-shadow: 0 10px 25px var(--color-shadow-hover); /* More pronounced shadow on hover */
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px var(--color-shadow-hover);
 }
 
 .feedback-entry-card h3 {
-  color: var(--color-heading); /* Darker text for Entry ID */
-  font-size: 1.3em; /* Slightly larger heading in card */
+  color: var(--color-heading);
+  font-size: 1.3em;
   margin-top: 0;
   margin-bottom: 15px;
-  border-bottom: 1px solid var(--color-border-light); /* Lighter, more subtle divider */
+  border-bottom: 1px solid var(--color-border-light);
   padding-bottom: 15px;
-  text-align: left; /* Align ID to left */
+  text-align: left;
   font-weight: 600;
 }
 
 .feedback-entry-card p {
-  margin: 8px 0; /* Slightly less margin between paragraphs */
-  color: var(--color-text-medium); /* Medium gray for content text */
+  margin: 8px 0;
+  color: var(--color-text-dark);
   font-size: 0.95em;
   line-height: 1.4;
   display: flex;
@@ -51,36 +94,34 @@
 }
 
 .feedback-entry-card p strong {
-  color: var(--color-text-dark); /* Darker color for labels */
+  color: var(--color-text-dark);
   font-weight: 500;
   flex-shrink: 0;
   min-width: 140px;
-  text-align: left; /* Align labels to the left */
+  text-align: left;
 }
 
-/* You still need to wrap the actual values in a span with class="value" in App.jsx
-   for this style to apply effectively */
 .feedback-entry-card p .value {
     flex-grow: 1;
-    text-align: right; /* Align values to the right */
+    text-align: right;
 }
 
 .feedback-entry-card hr {
   border: none;
-  border-top: 1px solid var(--color-border-light); /* Very light, subtle hr */
+  border-top: 1px solid var(--color-border-light);
   margin: 25px 0 10px;
   opacity: 0.8;
 }
 
 .no-entries-message {
-  color: var(--color-text-medium); /* Use medium gray for this message */
+  color: var(--color-text-on-dark); /* Use light gray for this message, so it's visible on dark green background */
   font-style: italic;
   margin-top: 50px;
   font-size: 1.1em;
   padding: 60px;
-  border: 2px dashed var(--color-border-light); /* Lighter dashed border */
+  border: 2px dashed var(--color-border-light);
   border-radius: 12px;
-  background-color: var(--color-background-card); /* White background for this */
+  background-color: var(--color-background-card);
   display: block;
   max-width: 600px;
   margin-left: auto;
